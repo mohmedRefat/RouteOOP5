@@ -105,22 +105,380 @@ compiler removers declaration and calls so it will not make a compile time error
 
 
 
+using RouteOOP5.Classes;
+using RouteOOP5.Extensions;
+using RouteOOP5.Structs;
 
 
 class Program
 {
-
-
-
     static void Main(string[] args)
     {
+        // print sys title
+
+        DeliveryUtilities.PrintSystemTitle();
+
+
+        // get total before shipment
+
+        Console.WriteLine(
+            $"Total Shipments Created : " +
+            $"{Shipment.GetTotalShipmentsCreated()}"
+        );
+
+
+        // create standard shipment
+
+        Console.WriteLine(
+            "creating shipments"
+        );
+
+
+        DeliveryAddress standardAddress =
+            new DeliveryAddress(
+                "Street One",
+                "Cairo",
+                10
+            );
+
+
+        StandardShipment standardShipment =
+            new StandardShipment(
+                "SH001",
+                "Laptop",
+                3,
+                80,
+                standardAddress
+            );
+
+
+        Console.WriteLine(
+            "Standard Shipment Created"
+        );
+
+
+        // Create express shipment
+
+        DeliveryAddress expressAddress =
+            new DeliveryAddress(
+                "Street Two",
+                "Cairo",
+                20
+            );
+
+
+        ExpressShipment expressShipment =
+            new ExpressShipment(
+                "SH002",
+                "Mobile Phone",
+                2,
+                60,
+                expressAddress,
+                30
+            );
+
+
+        expressShipment.UpdateTrackingStatus(
+            "Out For Delivery"
+        );
+
+
+        Console.WriteLine(
+            "Express Shipment Created"
+        );
+
+
+        // Create international shipment
+
+        DeliveryAddress internationalAddress =
+            new DeliveryAddress(
+                "Street Three",
+                "Cairo",
+                30
+            );
+
+
+        InternationalShipment internationalShipment =
+            new InternationalShipment(
+                "SH003",
+                "Television",
+                8,
+                120,
+                internationalAddress,
+                "Germany",
+                100
+            );
+
+
+        internationalShipment.UpdateTrackingStatus(
+            "Delivered"
+        );
+
+
+        Console.WriteLine(
+            "International Shipment Created"
+        );
+
+
+        // static coping
+
+        Console.WriteLine(
+            $"Total Shipments Created : " +
+            $"{Shipment.GetTotalShipmentsCreated()}"
+        );
+
+        /*
+            object coping
+        */
+
+
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine("Object Copying");
+
+        DeliveryUtilities.PrintSeparator();
+
+
+        Shipment shipment1 =
+            standardShipment;
+
+
+        Shipment shipment2 =
+            shipment1;
+
+
+        Console.WriteLine(
+            $"Original Shipment : " +
+            $"{shipment1.TrackingCodeProperty}"
+        );
+
+
+        Console.WriteLine(
+            $"Assigned Shipment : " +
+            $"{shipment2.TrackingCodeProperty}"
+        );
+
+
+        Console.WriteLine(
+            $"Same Object : " +
+            $"{ReferenceEquals(shipment1, shipment2)}"
+        );
+
+        /*
+            shallow copy
+        */
+
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine("shallow copy");
+
+        DeliveryUtilities.PrintSeparator();
+
+
+        Shipment shallowShipment =
+            standardShipment.ShallowCopy();
+
+
+        Console.WriteLine(
+            $"Original Shipment Address : " +
+            $"{standardShipment.Destination.City}"
+        );
+
+
+        Console.WriteLine(
+            $"Copied Shipment Address : " +
+            $"{shallowShipment.Destination.City}"
+        );
+
+
+        Console.WriteLine(
+            "Changing copied shipment address..."
+        );
+
+
+        shallowShipment.Destination.City =
+            "Giza";
+
+
+        Console.WriteLine(
+            $"Original Shipment Address : " +
+            $"{standardShipment.Destination.City}"
+        );
+
+
+        Console.WriteLine(
+            $"Copied Shipment Address : " +
+            $"{shallowShipment.Destination.City}"
+        );
+
+
+        Console.WriteLine(
+            $"Same DeliveryAddress Object : " +
+            $"{ReferenceEquals(
+                standardShipment.Destination,
+                shallowShipment.Destination
+            )}"
+        );
+
+        /*
+        Deep copy
+        */
+
+
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine("Deep copy");
+
+        DeliveryUtilities.PrintSeparator();
+
+
+        // Change original back to Cairo
+
+        standardShipment.Destination.City =
+            "Cairo";
+
+
+        Shipment deepShipment =
+            standardShipment.DeepCopy();
+
+
+        Console.WriteLine(
+            $"Original Shipment Address : " +
+            $"{standardShipment.Destination.City}"
+        );
+
+
+        Console.WriteLine(
+            $"Copied Shipment Address : " +
+            $"{deepShipment.Destination.City}"
+        );
+
+
+        Console.WriteLine(
+            "Changing copied shipment address..."
+        );
+
+
+        deepShipment.Destination.City =
+            "Giza";
+
+
+        Console.WriteLine(
+            $"Original Shipment Address : " +
+            $"{standardShipment.Destination.City}"
+        );
+
+
+        Console.WriteLine(
+            $"Copied Shipment Address : " +
+            $"{deepShipment.Destination.City}"
+        );
+
+
+        Console.WriteLine(
+            $"Same DeliveryAddress Object : " +
+            $"{ReferenceEquals(
+                standardShipment.Destination,
+                deepShipment.Destination
+            )}"
+        );
+
+        /*
+        
+        Extension method
+        */
+
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine("Extension Methods");
+
+        DeliveryUtilities.PrintSeparator();
+
+
+        Console.WriteLine(
+            standardShipment.GetSummary()
+        );
+
+
+        Console.WriteLine(
+            expressShipment.GetSummary()
+        );
+
+
+        Console.WriteLine(
+            internationalShipment.GetSummary()
+        );
+
+
+        Console.WriteLine(
+            $"SH001 Is Delivered : " +
+            $"{standardShipment.IsDelivered()}"
+        );
+
+
+        Console.WriteLine(
+            $"SH003 Is Delivered : " +
+            $"{internationalShipment.IsDelivered()}"
+        );
+
+
+        /*
+            Tracking status
+        */
+
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine("Tracking Status");
+
+        DeliveryUtilities.PrintSeparator();
+
+
+        standardShipment.UpdateTrackingStatus(
+            "Out For Delivery"
+        );
+
+        /*
+        Static utils
+        */
+
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine("Static utils");
+
+        DeliveryUtilities.PrintSeparator();
+
+
+        Console.WriteLine("Delivery Center");
+
+
+        Console.WriteLine(
+            $"Total Shipments Created : " +
+            $"{Shipment.GetTotalShipmentsCreated()}"
+        );
+
+        /*
+        Partial method
+        */
+
+        DeliveryUtilities.PrintSeparator();
+
+        Console.WriteLine("Partial method");
+
+        DeliveryUtilities.PrintSeparator();
+
+
+        internationalShipment.UpdateTrackingStatus(
+            "Delivered"
+        );
 
 
 
+        DeliveryUtilities.PrintSeparator();
 
+        Console.WriteLine(
+            "Assignment Completed"
+        );
 
-
+        DeliveryUtilities.PrintSeparator();
     }
-
-
 }

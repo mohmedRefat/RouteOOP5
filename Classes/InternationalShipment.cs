@@ -1,16 +1,11 @@
-using System;
-using RouteOOP3.Interfaces;
-using RouteOOP3.Structs;
+using RouteOOP5.Structs;
 
-namespace RouteOOP3.Classes
+namespace RouteOOP5.Classes
 {
-    public class InternationalShipment
-        : Shipment, ITrackable, IInsurable
+    public class InternationalShipment : Shipment
     {
-
         private string destinationCountry;
         private decimal customsFee;
-
 
 
         public string DestinationCountry
@@ -41,8 +36,6 @@ namespace RouteOOP3.Classes
         }
 
 
-        // Constructor
-
         public InternationalShipment(
             string trackingCode,
             string description,
@@ -58,24 +51,10 @@ namespace RouteOOP3.Classes
                 deliveryFee,
                 destination)
         {
-            if (!string.IsNullOrWhiteSpace(destinationCountry))
-            {
-                DestinationCountry = destinationCountry;
-            }
-            else
-            {
-                DestinationCountry = "Unknown";
-            }
-
-
-            if (customsFee >= 0)
-            {
-                CustomsFee = customsFee;
-            }
+            DestinationCountry = destinationCountry;
+            CustomsFee = customsFee;
         }
 
-
-                // implement estmated cost
 
         public override decimal EstimatedCost
         {
@@ -85,46 +64,6 @@ namespace RouteOOP3.Classes
                     + (Weight * 5)
                     + CustomsFee;
             }
-        }
-
-
-        // implement PrintShipment
-
-        public override void PrintShipment()
-        {
-            Console.WriteLine(
-                "International Shipment"
-            );
-
-            Console.WriteLine(
-                $"Tracking Code : {TrackingCode}"
-            );
-
-            Console.WriteLine(
-                $"Destination Country : " +
-                $"{DestinationCountry}"
-            );
-
-            Console.WriteLine(
-                $"Estimated Cost : " +
-                $"{EstimatedCost} EGP"
-            );
-        }
-
-
-        // implement ITrackable
-
-        public string GetTrackingStatus()
-        {
-            return $"Shipment {TrackingCode} has been Delivered.";
-        }
-
-
-        // implement IInsurable
-
-        public decimal CalculateInsurance()
-        {
-            return EstimatedCost * 0.12m;
         }
     }
 }
