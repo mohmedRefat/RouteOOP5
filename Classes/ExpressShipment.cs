@@ -1,17 +1,12 @@
-using System;
-using RouteOOP3.Interfaces;
-using RouteOOP3.Structs;
+using RouteOOP5.Structs;
 
-namespace RouteOOP3.Classes
+namespace RouteOOP5.Classes
 {
-    public class ExpressShipment
-        : Shipment, ITrackable, IInsurable
+    public class ExpressShipment : Shipment
     {
-
         private decimal extraFee;
 
 
-         
         public decimal ExtraFee
         {
             get { return extraFee; }
@@ -25,8 +20,6 @@ namespace RouteOOP3.Classes
             }
         }
 
-
-        // Constructor
 
         public ExpressShipment(
             string trackingCode,
@@ -42,59 +35,18 @@ namespace RouteOOP3.Classes
                 deliveryFee,
                 destination)
         {
-            if (extraFee >= 0)
-            {
-                ExtraFee = extraFee;
-            }
+            ExtraFee = extraFee;
         }
 
-
-        // implement estmated cost
 
         public override decimal EstimatedCost
         {
             get
             {
-                return DeliveryFee
+                return base.DeliveryFee
                     + (Weight * 5)
                     + ExtraFee;
             }
-        }
-
-
-        // implement Printshipment
-
-        public override void PrintShipment()
-        {
-            Console.WriteLine("Express Shipment");
-
-            Console.WriteLine(
-                $"Tracking Code : {TrackingCode}"
-            );
-
-            Console.WriteLine(
-                $"Extra Fee : {ExtraFee} EGP"
-            );
-
-            Console.WriteLine(
-                $"Estimated Cost : {EstimatedCost} EGP"
-            );
-        }
-
-
-        // implement itrackable
-
-        public string GetTrackingStatus()
-        {
-            return $"Shipment {TrackingCode} is Out for Delivery.";
-        }
-
-
-        // implement IInsurable
-
-        public decimal CalculateInsurance()
-        {
-            return EstimatedCost * 0.08m;
         }
     }
 }

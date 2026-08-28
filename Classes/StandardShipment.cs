@@ -1,14 +1,9 @@
-using System;
-using RouteOOP3.Interfaces;
-using RouteOOP3.Structs;
+using RouteOOP5.Structs;
 
-namespace RouteOOP3.Classes
+namespace RouteOOP5.Classes
 {
-    
-    public class StandardShipment
-        : Shipment, ITrackable, IInsurable
+    public class StandardShipment : Shipment
     {
-
         public StandardShipment(
             string trackingCode,
             string description,
@@ -25,50 +20,12 @@ namespace RouteOOP3.Classes
         }
 
 
-        // implement estmated cost
-
         public override decimal EstimatedCost
         {
             get
             {
                 return DeliveryFee + (Weight * 5);
             }
-        }
-
-
-        // implement Printshipment
-
-        public override void PrintShipment()
-        {
-            Console.WriteLine("standard shipment");
-
-            Console.WriteLine(
-                $"Tracking Code : {TrackingCode}"
-            );
-
-            Console.WriteLine(
-                $"Description : {Description}"
-            );
-
-            Console.WriteLine(
-                $"Estimated Cost : {EstimatedCost} EGP"
-            );
-        }
-
-
-        // implement itrackable
-
-        public string GetTrackingStatus()
-        {
-            return $"Shipment {TrackingCode} is Ready.";
-        }
-
-
-        // implement iinsurable
-
-        public decimal CalculateInsurance()
-        {
-            return EstimatedCost * 0.05m;
         }
     }
 }
